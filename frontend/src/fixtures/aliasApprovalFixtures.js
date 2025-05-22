@@ -71,6 +71,7 @@ const aliasApprovalFixtures = {
       proposedAlias: null,
       status: "REJECTED",
       dateApproved: null,
+      reviews: [],
     },
   ],
 };
