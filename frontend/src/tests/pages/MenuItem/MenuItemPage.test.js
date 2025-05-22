@@ -8,6 +8,8 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import MenuItemPage from "main/pages/MenuItem/MenuItemPage";
 import { menuItemFixtures } from "fixtures/menuItemFixtures";
+import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
+import aliasApprovalFixtures from "fixtures/aliasApprovalFixtures";
 
 const mockToast = jest.fn();
 jest.mock("react-toastify", () => {
@@ -56,6 +58,9 @@ describe("MenuItemPage", () => {
     axiosMock
       .onGet("/api/currentUser")
       .reply(200, apiCurrentUserFixtures.userOnly);
+    axiosMock
+      .onGet("/api/admin/usersWithProposedAlias")
+      .reply(200, []);
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -73,6 +78,8 @@ describe("MenuItemPage", () => {
     expect(
       screen.queryByText("MenuItemTable-cell-header-col-name"),
     ).not.toBeInTheDocument();
+    expect(screen.queryByText("Aliases Pending Approval")).not.toBeInTheDocument();
+
   });
 });
 
@@ -99,6 +106,9 @@ describe("MenuItemPage renders table correctly", () => {
     axiosMock
       .onGet("/api/currentUser")
       .reply(200, apiCurrentUserFixtures.userOnly);
+    axiosMock
+      .onGet("/api/admin/usersWithProposedAlias")
+      .reply(200, aliasApprovalFixtures.threeUsers);
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -117,5 +127,14 @@ describe("MenuItemPage renders table correctly", () => {
         screen.getByTestId(`MenuItemTable-cell-row-${i}-col-station`),
       ).toHaveTextContent(menuItemFixtures.fiveMenuItems[i].station);
     }
+
+    expect(screen.getByText("Aliases Pending Approval")).toBeInTheDocument();
+    const aliases = aliasApprovalFixtures.threeUsers;
+    await screen.findByTestId("AliasApprovalTable-cell-row-0-col-alias");
+    aliases.forEach((aliasObj, i) => {
+      expect(screen.getByTestId(`AliasApprovalTable-cell-row-${i}-col-alias`)).toHaveTextContent(aliasObj.alias);
+      expect(screen.getByTestId(`approve-button-${aliasObj.id}`)).toBeInTheDocument();
+      expect(screen.getByTestId(`reject-button-${aliasObj.id}`)).toBeInTheDocument();
+    })
   });
 });
