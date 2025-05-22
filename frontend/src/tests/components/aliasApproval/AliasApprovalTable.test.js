@@ -1,72 +1,91 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import AliasApprovalTable from 'main/components/AliasApproval/AliasApprovalTable';
-import aliasApprovalFixtures from 'fixtures/aliasApprovalFixtures';
+import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import AliasApprovalTable from "main/components/AliasApproval/AliasApprovalTable";
 
-describe('AliasApprovalTable', () => {
-  const { threeUsers, oneAliasApproval } = aliasApprovalFixtures;
+const mockOne = {
+  id: 1,
+  alias: "Alias1",
+  proposedAlias: "Ali1",
+  status: "AWAITING_REVIEW",
+};
 
-  test('renders all aliases with Approve and Reject buttons', () => {
-    const onApprove = jest.fn();
-    const onReject = jest.fn();
+const mockApproved = {
+  id: 2,
+  alias: "Alias2",
+  proposedAlias: "Ali2",
+  status: "APPROVED",
+};
+
+const mockRejected = {
+  id: 3,
+  alias: "Alias3",
+  proposedAlias: "Ali3",
+  status: "REJECTED",
+};
+
+describe("AliasApprovalTable", () => {
+  it("renders no rows when commons is empty", () => {
     render(
       <AliasApprovalTable
-        aliases={threeUsers}
-        onApprove={onApprove}
-        onReject={onReject}
-      />
-    );
-
-    threeUsers.forEach((user) => {
-      expect(screen.getByText(user.alias)).toBeInTheDocument();
-      expect(
-        screen.getByTestId(`approve-button-${user.id}`)
-      ).toBeInTheDocument();
-      expect(
-        screen.getByTestId(`reject-button-${user.id}`)
-      ).toBeInTheDocument();
-    });
-  });
-
-  test('calls onApprove with correct alias object when Approve button clicked', async () => {
-    const onApprove = jest.fn();
-    render(
-      <AliasApprovalTable
-        aliases={[oneAliasApproval]}
-        onApprove={onApprove}
-        onReject={jest.fn()}
-      />
-    );
-
-    await userEvent.click(
-      screen.getByTestId(`approve-button-${oneAliasApproval.id}`)
-    );
-    expect(onApprove).toHaveBeenCalledWith(oneAliasApproval);
-  });
-
-  test('calls onReject with correct alias object when Reject button clicked', async () => {
-    const onReject = jest.fn();
-    render(
-      <AliasApprovalTable
-        aliases={[oneAliasApproval]}
+        commons={[]}
         onApprove={jest.fn()}
-        onReject={onReject}
-      />
+        onReject={jest.fn()}
+      />,
     );
-
-    await userEvent.click(
-      screen.getByTestId(`reject-button-${oneAliasApproval.id}`)
-    );
-    expect(onReject).toHaveBeenCalledWith(oneAliasApproval);
+    expect(screen.queryByText("Ali1")).not.toBeInTheDocument();
+    expect(screen.getByText("No data available")).toBeInTheDocument();
   });
 
-  test('renders no buttons when aliases list is empty', () => {
+  it("renders rows for each alias", () => {
+    render(
+      <AliasApprovalTable
+        commons={[mockOne, mockApproved, mockRejected]}
+        onApprove={jest.fn()}
+        onReject={jest.fn()}
+      />,
+    );
+    // check that all proposedAlias texts appear
+    expect(screen.getByText("Ali1")).toBeInTheDocument();
+    expect(screen.getByText("Ali2")).toBeInTheDocument();
+    expect(screen.getByText("Ali3")).toBeInTheDocument();
+    // status cell
+    expect(screen.getByText("AWAITING_REVIEW")).toBeInTheDocument();
+    expect(screen.getByText("APPROVED")).toBeInTheDocument();
+    expect(screen.getByText("REJECTED")).toBeInTheDocument();
+  });
+
+  it("calls onApprove and onReject callbacks correctly", () => {
     const onApprove = jest.fn();
     const onReject = jest.fn();
     render(
-      <AliasApprovalTable aliases={[]} onApprove={onApprove} onReject={onReject} />
+      <AliasApprovalTable
+        commons={[mockOne]}
+        onApprove={onApprove}
+        onReject={onReject}
+      />,
     );
-    expect(screen.queryByRole('button')).toBeNull();
+    const approveButton = screen.getByTestId("approve-button-1");
+    const rejectButton = screen.getByTestId("reject-button-1");
+
+    fireEvent.click(approveButton);
+    expect(onApprove).toHaveBeenCalledWith(mockOne);
+
+    fireEvent.click(rejectButton);
+    expect(onReject).toHaveBeenCalledWith(mockOne);
+  });
+
+  it("disables buttons when status is not AWAITING_REVIEW", () => {
+    render(
+      <AliasApprovalTable
+        commons={[mockApproved, mockRejected]}
+        onApprove={jest.fn()}
+        onReject={jest.fn()}
+      />,
+    );
+    const approveButton = screen.getByTestId("approve-button-2");
+    const rejectButton = screen.getByTestId("reject-button-3");
+    expect(approveButton).toBeDisabled();
+    expect(rejectButton).toBeDisabled();
   });
 });

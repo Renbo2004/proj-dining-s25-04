@@ -58,9 +58,7 @@ describe("MenuItemPage", () => {
     axiosMock
       .onGet("/api/currentUser")
       .reply(200, apiCurrentUserFixtures.userOnly);
-    axiosMock
-      .onGet("/api/admin/usersWithProposedAlias")
-      .reply(200, []);
+    axiosMock.onGet("/api/admin/usersWithProposedAlias").reply(200, []);
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -78,8 +76,9 @@ describe("MenuItemPage", () => {
     expect(
       screen.queryByText("MenuItemTable-cell-header-col-name"),
     ).not.toBeInTheDocument();
-    expect(screen.queryByText("Aliases Pending Approval")).not.toBeInTheDocument();
-
+    expect(
+      screen.queryByText("Aliases Pending Approval"),
+    ).not.toBeInTheDocument();
   });
 });
 
@@ -129,12 +128,17 @@ describe("MenuItemPage renders table correctly", () => {
     }
 
     expect(screen.getByText("Aliases Pending Approval")).toBeInTheDocument();
-    const aliases = aliasApprovalFixtures.threeUsers;
     await screen.findByTestId("AliasApprovalTable-cell-row-0-col-alias");
-    aliases.forEach((aliasObj, i) => {
-      expect(screen.getByTestId(`AliasApprovalTable-cell-row-${i}-col-alias`)).toHaveTextContent(aliasObj.alias);
-      expect(screen.getByTestId(`approve-button-${aliasObj.id}`)).toBeInTheDocument();
-      expect(screen.getByTestId(`reject-button-${aliasObj.id}`)).toBeInTheDocument();
-    })
+    aliasApprovalFixtures.threeUsers.forEach((aliasObj, i) => {
+      expect(
+        screen.getByTestId(`AliasApprovalTable-cell-row-${i}-col-alias`),
+      ).toHaveTextContent(aliasObj.alias);
+      expect(
+        screen.getByTestId(`approve-button-${aliasObj.id}`),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByTestId(`reject-button-${aliasObj.id}`),
+      ).toBeInTheDocument();
+    });
   });
 });

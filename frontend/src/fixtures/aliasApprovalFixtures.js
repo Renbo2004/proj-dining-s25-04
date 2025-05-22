@@ -1,9 +1,10 @@
 const aliasApprovalFixtures = {
   oneAliasApproval: {
-    id: 1,  
+    id: 1,
     email: "renbo@ucsb.edu",
     googleSub: "115856948234298493496",
-    pictureUrl:"https://lh3.googleusercontent.com/-bQynVrzVIrU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmkGuVsELD1ZeV5iDUAUfe6_K-p8w/s96-c/photo.jpg",
+    pictureUrl:
+      "https://lh3.googleusercontent.com/-bQynVrzVIrU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmkGuVsELD1ZeV5iDUAUfe6_K-p8w/s96-c/photo.jpg",
     fullName: "Ren Bo",
     givenName: "Ren",
     familyName: "Bo",
@@ -19,10 +20,11 @@ const aliasApprovalFixtures = {
   },
   threeUsers: [
     {
-      id: 1,  
+      id: 1,
       email: "renbo@ucsb.edu",
       googleSub: "115856948234298493496",
-      pictureUrl:"https://lh3.googleusercontent.com/-bQynVrzVIrU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmkGuVsELD1ZeV5iDUAUfe6_K-p8w/s96-c/photo.jpg",
+      pictureUrl:
+        "https://lh3.googleusercontent.com/-bQynVrzVIrU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmkGuVsELD1ZeV5iDUAUfe6_K-p8w/s96-c/photo.jpg",
       fullName: "Ren Bo",
       givenName: "Ren",
       familyName: "Bo",
@@ -40,7 +42,8 @@ const aliasApprovalFixtures = {
       id: 2,
       email: "pconrad.cis@gmail.com",
       googleSub: "102656447703889917227",
-      pictureUrl:"https://lh3.googleusercontent.com/a-/AOh14GhpDBUt8eCEqiRT45hrFbcimsX_h1ONn0dc3HV8Bp8=s96-c",
+      pictureUrl:
+        "https://lh3.googleusercontent.com/a-/AOh14GhpDBUt8eCEqiRT45hrFbcimsX_h1ONn0dc3HV8Bp8=s96-c",
       fullName: "Phillip Conrad",
       givenName: "Phillip",
       familyName: "Conrad",
