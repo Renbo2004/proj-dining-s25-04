@@ -107,7 +107,7 @@ describe("MenuItemPage renders table correctly", () => {
       .reply(200, apiCurrentUserFixtures.userOnly);
     axiosMock
       .onGet("/api/admin/usersWithProposedAlias")
-      .reply(200, aliasFixtures.threeUsers);
+      .reply(200, aliasFixtures.threeAlias);
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -129,7 +129,7 @@ describe("MenuItemPage renders table correctly", () => {
 
     expect(screen.getByText("Aliases Pending Approval")).toBeInTheDocument();
     await screen.findByTestId("AliasApprovalTable-cell-row-0-col-alias");
-    aliasFixtures.threeUsers.forEach((aliasObj, i) => {
+    aliasFixtures.threeAlias.forEach((aliasObj, i) => {
       expect(
         screen.getByTestId(`AliasApprovalTable-cell-row-${i}-col-alias`),
       ).toHaveTextContent(aliasObj.alias);

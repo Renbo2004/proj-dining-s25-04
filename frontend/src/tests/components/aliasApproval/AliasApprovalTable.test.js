@@ -5,9 +5,9 @@ import AliasApprovalTable from "main/components/AliasApproval/AliasApprovalTable
 import aliasFixtures from "fixtures/aliasFixtures";
 
 describe("AliasApprovalTable", () => {
-  const { oneAliasApproval: mockOne, threeUsers } = aliasFixtures;
-  const [, mockApproved, mockRejected] = threeUsers;
-
+  const { oneAlias: mockOne, threeAlias } = aliasFixtures;
+  const [ , mockApproved, mockRejected ] = threeAlias;
+  
   it("renders empty state when commons is empty", () => {
     render(
       <AliasApprovalTable

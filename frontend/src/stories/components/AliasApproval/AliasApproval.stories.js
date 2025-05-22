@@ -12,7 +12,7 @@ const Template = (args) => <AliasApprovalTable {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  commons: aliasFixtures.threeUsers,
+  commons: aliasFixtures.threeAlias,
   onApprove: action("onApprove"),
   onReject: action("onReject"),
 };
@@ -26,7 +26,7 @@ NoAliases.args = {
 
 export const SingleAlias = Template.bind({});
 SingleAlias.args = {
-  commons: [aliasFixtures.oneAliasApproval],
+  commons: [aliasFixtures.oneAlias],
   onApprove: action("onApprove"),
   onReject: action("onReject"),
 };
