@@ -1,7 +1,7 @@
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import AliasApprovalTable from "main/components/AliasApproval/AliasApprovalTable";
-import aliasApprovalFixtures from "fixtures/aliasApprovalFixtures";
+import aliasFixtures from "fixtures/aliasFixtures";
 
 export default {
   title: "Components/AliasApproval/AliasApprovalTable",
@@ -12,7 +12,7 @@ const Template = (args) => <AliasApprovalTable {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  commons: aliasApprovalFixtures.threeUsers,
+  commons: aliasFixtures.threeUsers,
   onApprove: action("onApprove"),
   onReject: action("onReject"),
 };
@@ -26,7 +26,7 @@ NoAliases.args = {
 
 export const SingleAlias = Template.bind({});
 SingleAlias.args = {
-  commons: [aliasApprovalFixtures.oneAliasApproval],
+  commons: [aliasFixtures.oneAliasApproval],
   onApprove: action("onApprove"),
   onReject: action("onReject"),
 };

@@ -1,5 +1,5 @@
-const aliasApprovalFixtures = {
-  oneAliasApproval: {
+const aliasFixtures = {
+  oneAlias: {
     id: 1,
     email: "renbo@ucsb.edu",
     googleSub: "115856948234298493496",
@@ -18,7 +18,7 @@ const aliasApprovalFixtures = {
     dateApproved: null,
     reviews: [],
   },
-  threeUsers: [
+  threeAlias: [
     {
       id: 1,
       email: "renbo@ucsb.edu",
